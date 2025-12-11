@@ -1,7 +1,7 @@
-import { Button } from "@/components/ui/button";
-import { createFileRoute } from "@tanstack/react-router";
-import data from "../../data.json";
+import HoldButton from "@/components/HoldButton";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import data from "../data/data.json";
 
 export const Route = createFileRoute("/")({ component: App });
 
@@ -13,14 +13,29 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
-      <div className="flex-grow flex justify-center items-center text-3xl tracking-wide text-white">
+    <div className="min-h-screen grid grid-rows-2">
+      <div className="flex justify-center items-center text-3xl tracking-wide text-white text-center">
         {value !== undefined ? data[value] : null}
       </div>
-      <div className="flex-grow flex justify-center items-center">
-        <Button onClick={getRandomValue} size="lg" variant="outline">
-          Click
-        </Button>
+      <div className="flex flex-col justify-center items-center">
+        <HoldButton onFinish={getRandomValue}>
+          {(status) =>
+            (() => {
+              if (status === "idle") {
+                return "🙂";
+              }
+              if (status === "pending") {
+                return "😳";
+              }
+              if (status === "finished") {
+                return "🥳";
+              }
+            })()
+          }
+        </HoldButton>
+      </div>
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-slate-900 border-t border-slate-500">
+        <Link to="/categories">Kategoriat</Link>
       </div>
     </div>
   );
