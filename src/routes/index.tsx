@@ -13,7 +13,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen grid grid-rows-2">
+    <div className="min-h-dvh grid grid-rows-2">
       <div className="flex justify-center items-center text-3xl tracking-wide text-white text-center">
         {value !== undefined ? data[value] : null}
       </div>
