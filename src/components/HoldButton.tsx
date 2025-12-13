@@ -1,3 +1,4 @@
+import { cva } from "class-variance-authority";
 import { ReactNode, useRef, useState } from "react";
 import useLongPress, { LongPressStatus } from "../hooks/useLongPress";
 
@@ -40,25 +41,31 @@ export default function HoldButton({ children, onFinish }: Props) {
   });
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col">
       <button
         {...longPress}
-        className="select-none touch-none text-5xl flex justify-center"
-        style={{ width: 200, height: 60 }}
         onContextMenu={(event) => {
           event.preventDefault();
         }}
+        className={cva(
+          "select-none touch-none text-5xl flex justify-center py-6 w-60",
+          {
+            variants: {
+              status: {
+                idle: "bg-slate-800",
+                pending: "bg-slate-700",
+                finished: "",
+              },
+            },
+          },
+        )({ status })}
       >
         {children(status)}
       </button>
       <div className="bg-gray-200 h-2 w-full">
         <div
-          style={{
-            width: `${progress}%`,
-            height: "100%",
-            background: "dodgerblue",
-            transition: "width 0.04s linear",
-          }}
+          className="h-full bg-blue-500 transition-[width] duration-75 ease-linear"
+          style={{ width: `${progress}%` }}
         />
       </div>
     </div>
