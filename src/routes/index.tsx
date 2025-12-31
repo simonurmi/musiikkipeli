@@ -1,6 +1,6 @@
 import HoldButton from "@/components/HoldButton";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import data from "../data/data.json";
 
 export const Route = createFileRoute("/")({ component: App });
@@ -11,6 +11,19 @@ function App() {
   const getRandomValue = () => {
     setValue(Math.floor(Math.random() * data.length));
   };
+
+  useEffect(() => {
+    const category = localStorage.getItem("category");
+    if (category) {
+      setValue(parseInt(category));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (value) {
+      localStorage.setItem("category", String(value));
+    }
+  }, [value]);
 
   return (
     <div className="min-h-dvh grid grid-rows-2">
